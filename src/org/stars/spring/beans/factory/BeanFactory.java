@@ -3,6 +3,7 @@ package org.stars.spring.beans.factory;
 import org.stars.spring.beans.BeansException;
 
 /**
+ * 就一个获取到 bean 实例的接口
  * @author : xian
  */
 public interface BeanFactory {

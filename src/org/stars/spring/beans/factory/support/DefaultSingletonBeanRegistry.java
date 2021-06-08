@@ -6,7 +6,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * 注册 Bean 的实例
+ * 实现 Bean 的单例的接口，讲 bean 进行缓存和通过 bean name 获取
+ * 主要是管理 bean 实例的
  * @author : xian
  */
 public class DefaultSingletonBeanRegistry implements SingletonBeanRegistry {

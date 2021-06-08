@@ -1,7 +1,7 @@
 package org.stars.spring.beans.factory.config;
 
 /**
- * Spring 容器的 单例接口
+ * Spring 容器的 单例接口，用在获取实例的
  * @author : xian
  */
 public interface SingletonBeanRegistry {

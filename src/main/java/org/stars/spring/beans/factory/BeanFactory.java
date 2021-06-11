@@ -23,4 +23,6 @@ public interface BeanFactory {
      * @throws BeansException   Bean 的异常
      */
     Object getBean(String beanName, Object... args) throws BeansException;
+
+    <T> T getBean(String beanName, Class<T> clazz) throws BeansException;
 }

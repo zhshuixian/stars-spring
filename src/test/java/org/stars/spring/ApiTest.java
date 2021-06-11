@@ -1,13 +1,9 @@
 package org.stars.spring;
 
 import org.junit.Test;
-import org.stars.spring.beans.UserDao;
-import org.stars.spring.beans.factory.config.BeanDefinition;
-import org.stars.spring.beans.factory.config.BeanReference;
-import org.stars.spring.beans.factory.config.PropertyValue;
-import org.stars.spring.beans.factory.config.PropertyValues;
-import org.stars.spring.beans.factory.support.DefaultListableBeanFactory;
 import org.stars.spring.beans.UserService;
+import org.stars.spring.beans.factory.support.DefaultListableBeanFactory;
+import org.stars.spring.beans.factory.xml.XmlBeanDefinitionReader;
 
 /**
  * @author : xian
@@ -18,18 +14,13 @@ public class ApiTest {
     public void testBeanFactory(){
         // BeanFactory 初始化
         DefaultListableBeanFactory factory = new DefaultListableBeanFactory();
-        // 注册 UserDao
-        factory.registryBeanDefinition("userDao", new BeanDefinition(UserDao.class));
-        // 注册 UserService
-        PropertyValues propertyValues = new PropertyValues();
-        propertyValues.addPropertyValue(new PropertyValue("uId", "1001"));
-        propertyValues.addPropertyValue(new PropertyValue("userDao", new BeanReference("userDao")));
+        // 使用 xml 配置 bean
+        XmlBeanDefinitionReader reader = new XmlBeanDefinitionReader(factory);
+        reader.loadBeanDefinitions("classpath:spring.xml");
 
-        BeanDefinition beanDefinition = new BeanDefinition(UserService.class, propertyValues);
-        factory.registryBeanDefinition("userService", beanDefinition);
 
         // 获取 bean
-        UserService service = (UserService) factory.getBean("userService");
+        UserService service = factory.getBean("userService", UserService.class);
         service.queryUserInfo();
 
 

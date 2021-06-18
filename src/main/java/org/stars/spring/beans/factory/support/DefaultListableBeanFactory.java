@@ -14,7 +14,12 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
     private final Map<String, BeanDefinition> beanDefinitionMap = new HashMap<>();
 
     @Override
-    protected BeanDefinition getBeanDefinition(String beanName) throws BeansException {
+    public void registryBeanDefinition(String beanName, BeanDefinition beanDefinition) {
+        beanDefinitionMap.put(beanName, beanDefinition);
+    }
+
+    @Override
+    public BeanDefinition getBeanDefinition(String beanName) throws BeansException {
         BeanDefinition beanDefinition = beanDefinitionMap.get(beanName);
         if(beanDefinition == null) {
             throw new BeansException("No bean name '" + beanName + "' is defined!");
@@ -22,13 +27,14 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
         return beanDefinition;
     }
 
-    @Override
-    public void registryBeanDefinition(String beanName, BeanDefinition beanDefinition) {
-        beanDefinitionMap.put(beanName, beanDefinition);
-    }
 
     @Override
     public Boolean containsBeanDefinition(String beaName) {
         return beanDefinitionMap.containsKey(beaName);
+    }
+
+    @Override
+    public String[] getBeanDefinitionNames() {
+        return beanDefinitionMap.keySet().toArray(new String[0]);
     }
 }

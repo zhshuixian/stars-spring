@@ -8,12 +8,13 @@ import java.io.IOException;
 import java.io.InputStream;
 
 /**
+ * 获取 classpath 目录下的某个文件 Resource
  * @author : xian
  */
 public class ClassPathResource implements Resource{
     private final String path;
 
-    private ClassLoader classLoader;
+    private final ClassLoader classLoader;
 
     public ClassPathResource(String path) {
         this(path, null);

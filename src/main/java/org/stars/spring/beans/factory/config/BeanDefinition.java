@@ -6,9 +6,9 @@ package org.stars.spring.beans.factory.config;
  */
 public class BeanDefinition {
     /** 类的 Class */
-    private final Class<?> beanClass;
+    private Class<?> beanClass;
     /** 这个 Bean 的所有成员属性 */
-    private final PropertyValues propertyValues;
+    private PropertyValues propertyValues;
 
     public BeanDefinition(Class<?> beanClass){
         this(beanClass, null);
@@ -23,7 +23,15 @@ public class BeanDefinition {
         return beanClass;
     }
 
+    public void setBeanClass(Class<?> beanClass) {
+        this.beanClass = beanClass;
+    }
+
     public PropertyValues getPropertyValues() {
         return propertyValues;
+    }
+
+    public void setPropertyValues(PropertyValues propertyValues) {
+        this.propertyValues = propertyValues;
     }
 }

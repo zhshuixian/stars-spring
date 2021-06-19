@@ -10,8 +10,4 @@
         <property name="location" value="火星"/>
     </bean>
 
-    <bean id="myBeanFactoryPostProcessor" class="org.stars.spring.common.MyBeanFactoryPostProcessor"/>
-
-    <bean id="myBeanPostProcessor" class="org.stars.spring.common.MyBeanPostProcessor"/>
-
 </beans>

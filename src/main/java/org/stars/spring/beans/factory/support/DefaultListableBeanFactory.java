@@ -1,6 +1,7 @@
 package org.stars.spring.beans.factory.support;
 
 import org.stars.spring.beans.BeansException;
+import org.stars.spring.beans.factory.ConfigurableListableBeanFactory;
 import org.stars.spring.beans.factory.config.BeanDefinition;
 
 import java.util.HashMap;
@@ -10,7 +11,7 @@ import java.util.Map;
  * 默认的 工厂实现。核心实现类
  * @author : xian
  */
-public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFactory implements BeanDefinitionRegistry {
+public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFactory implements BeanDefinitionRegistry, ConfigurableListableBeanFactory {
     private final Map<String, BeanDefinition> beanDefinitionMap = new HashMap<>();
 
     @Override
@@ -27,10 +28,29 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
         return beanDefinition;
     }
 
+    @Override
+    public void preInstantiateSingletons() throws BeansException {
+        beanDefinitionMap.keySet().forEach(this::getBean);
+    }
+
 
     @Override
     public Boolean containsBeanDefinition(String beaName) {
         return beanDefinitionMap.containsKey(beaName);
+    }
+
+    @Override
+    public <T> Map<String, T> getBeansOfType(Class<T> type) throws BeansException {
+        Map<String, T> result = new HashMap<>();
+        beanDefinitionMap.forEach((beanName, beanDefinition) ->{
+            Class<?> beanClass = beanDefinition.getBeanClass();
+            // 父类.isAssignableFrom(子类)
+            if(type.isAssignableFrom(beanClass)){
+                result.put(beanName, (T) getBean(beanName));
+            }
+        });
+
+        return result;
     }
 
     @Override

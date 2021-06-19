@@ -8,8 +8,19 @@ public class UserService {
 
     private UserDao userDao;
 
+    private String company;
+
+    private String location;
+
     public void queryUserInfo(){
-        System.out.println("哈哈哈哈，  " + userDao.queryUserName(uId));
+        System.out.println("userDao = " + userDao.queryUserName(uId) + " ," + this);
+    }
+
+    @Override
+    public String toString() {
+        return "uId='" + uId + '\'' +
+                ", company='" + company + '\'' +
+                ", location='" + location + '\'' ;
     }
 
     public String getUId() {
@@ -26,5 +37,21 @@ public class UserService {
 
     public void setUserDao(UserDao userDao) {
         this.userDao = userDao;
+    }
+
+    public String getCompany() {
+        return company;
+    }
+
+    public void setCompany(String company) {
+        this.company = company;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
     }
 }

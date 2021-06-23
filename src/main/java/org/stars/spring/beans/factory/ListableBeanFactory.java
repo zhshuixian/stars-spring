@@ -5,6 +5,8 @@ import org.stars.spring.beans.BeansException;
 import java.util.Map;
 
 /**
+ * BeanFactory 的扩展，可以枚举所有 bean 实例的工厂，那些需要预加载所有
+ * 的 BeanDefinition（例如基于 XML 的工厂） 的 BeanFactory 可能会实现这个接口
  * @author : xian
  */
 public interface ListableBeanFactory extends BeanFactory{

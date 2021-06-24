@@ -14,7 +14,7 @@ public class ResourceLoaderTest {
     private DefaultResourceLoader resourceLoader;
 
     @Before
-    public void init(){
+    public void init() {
         resourceLoader = new DefaultResourceLoader();
     }
 

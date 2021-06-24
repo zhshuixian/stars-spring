@@ -9,9 +9,10 @@ import java.io.InputStream;
 
 /**
  * 获取 classpath 目录下的某个文件 Resource
+ *
  * @author : xian
  */
-public class ClassPathResource implements Resource{
+public class ClassPathResource implements Resource {
     private final String path;
 
     private final ClassLoader classLoader;
@@ -19,7 +20,6 @@ public class ClassPathResource implements Resource{
     public ClassPathResource(String path) {
         this(path, null);
     }
-
 
 
     public ClassPathResource(String path, ClassLoader classLoader) {
@@ -31,7 +31,7 @@ public class ClassPathResource implements Resource{
     @Override
     public InputStream getInputStream() throws IOException {
         InputStream is = classLoader.getResourceAsStream(path);
-        if(is == null){
+        if (is == null) {
             throw new FileNotFoundException(path + " cannot be opened because it does not exist");
         }
 

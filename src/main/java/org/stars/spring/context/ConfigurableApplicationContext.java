@@ -9,6 +9,7 @@ public interface ConfigurableApplicationContext extends ApplicationContext {
 
     /**
      * 刷新容器
+     *
      * @throws BeansException bean 异常
      */
     void refresh() throws BeansException;

@@ -8,7 +8,7 @@ import java.io.InputStream;
 /**
  * @author : xian
  */
-public class FileSystemResource implements Resource{
+public class FileSystemResource implements Resource {
     private final File file;
 
     private final String path;

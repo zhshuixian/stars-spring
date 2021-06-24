@@ -22,14 +22,16 @@ public interface ConfigurableListableBeanFactory extends ListableBeanFactory, Au
 
     /**
      * 提前实例化 bean
+     *
      * @throws BeansException bean 异常
      */
     void preInstantiateSingletons() throws BeansException;
 
     /**
      * 配置 BeanPostProcessor 接口实现的方法
+     *
      * @param beanPostProcessor bean 对象初始化前后的修改扩展功能接口的实现
      */
-     void addBeanPostProcessor(BeanPostProcessor beanPostProcessor);
+    void addBeanPostProcessor(BeanPostProcessor beanPostProcessor);
 
 }

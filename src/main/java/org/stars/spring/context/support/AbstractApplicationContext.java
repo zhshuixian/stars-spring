@@ -29,13 +29,20 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader i
         beanFactory.preInstantiateSingletons();
     }
 
-    /** 创建 BeanFactory 实例 */
+    /**
+     * 创建 BeanFactory 实例
+     */
     protected abstract void refreshBeanFactory() throws BeansException;
-    /** 获取 BeanFactory  */
+
+    /**
+     * 获取 BeanFactory
+     */
     protected abstract ConfigurableListableBeanFactory getBeanFactory();
 
-    /** 处理 BeanFactoryPostProcessor */
-    private void invokeBeanFactoryPostProcessor(ConfigurableListableBeanFactory beanFactory){
+    /**
+     * 处理 BeanFactoryPostProcessor
+     */
+    private void invokeBeanFactoryPostProcessor(ConfigurableListableBeanFactory beanFactory) {
         Map<String, BeanFactoryPostProcessor> beanFactoryPostProcessorMap = beanFactory.getBeansOfType(BeanFactoryPostProcessor.class);
 
         beanFactoryPostProcessorMap.values().forEach(processor -> {
@@ -43,8 +50,10 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader i
         });
     }
 
-    /** 注册 BeanPostProcessor */
-    private void registerBeanProcessor(ConfigurableListableBeanFactory beanFactory){
+    /**
+     * 注册 BeanPostProcessor
+     */
+    private void registerBeanProcessor(ConfigurableListableBeanFactory beanFactory) {
         Map<String, BeanPostProcessor> beanPostProcessorMap = beanFactory.getBeansOfType(BeanPostProcessor.class);
 
         beanPostProcessorMap.values().forEach(beanFactory::addBeanPostProcessor);

@@ -4,18 +4,19 @@ import cn.hutool.core.util.ClassUtil;
 
 /**
  * 获取 ClassLoader
+ *
  * @author : xian
  */
 public class ClassUtils {
-    public static ClassLoader getDefaultClassLoader(){
+    public static ClassLoader getDefaultClassLoader() {
         ClassLoader classLoader = null;
 
         try {
             classLoader = Thread.currentThread().getContextClassLoader();
-        }catch (Throwable ex){
+        } catch (Throwable ex) {
             //
         }
-        if(classLoader == null){
+        if (classLoader == null) {
             classLoader = ClassUtil.class.getClassLoader();
         }
         return classLoader;

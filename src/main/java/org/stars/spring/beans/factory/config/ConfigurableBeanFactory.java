@@ -7,9 +7,10 @@ import org.stars.spring.beans.factory.HierarchicalBeanFactory;
  * facilities to configure a bean factory, in addition to the bean factory
  * client methods in the {@link org.stars.spring.beans.factory.BeanFactory}
  * interface.
- *
+ * <p>
  * 工厂的配置接口
- * @author as190
+ *
+ * @author xian
  */
 public interface ConfigurableBeanFactory extends HierarchicalBeanFactory, SingletonBeanRegistry {
 
@@ -19,6 +20,7 @@ public interface ConfigurableBeanFactory extends HierarchicalBeanFactory, Single
 
     /**
      * 配置 BeanPostProcessor 接口实现的方法
+     *
      * @param beanPostProcessor bean 对象初始化前后的修改扩展功能接口的实现
      */
     void addBeanPostProcessor(BeanPostProcessor beanPostProcessor);

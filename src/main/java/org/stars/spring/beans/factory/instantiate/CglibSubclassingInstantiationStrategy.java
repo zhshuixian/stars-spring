@@ -8,6 +8,7 @@ import java.lang.reflect.Constructor;
 
 /**
  * 使用 Cglib 实例化 bean
+ *
  * @author : xian
  */
 public class CglibSubclassingInstantiationStrategy implements InstantiationStrategy {
@@ -23,7 +24,7 @@ public class CglibSubclassingInstantiationStrategy implements InstantiationStrat
             }
         });
 
-        if(null == constructor) {
+        if (null == constructor) {
             return enhancer.create();
         }
 

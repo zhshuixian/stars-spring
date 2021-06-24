@@ -8,6 +8,7 @@ import java.lang.reflect.InvocationTargetException;
 
 /**
  * 使用 JDK 实例化 bean
+ *
  * @author : xian
  */
 public class SimpleInstantiationStrategy implements InstantiationStrategy {
@@ -16,10 +17,10 @@ public class SimpleInstantiationStrategy implements InstantiationStrategy {
         Class<?> clazz = beanDefinition.getBeanClass();
 
         try {
-            if(null != constructor){
+            if (null != constructor) {
                 // 有参数的构造的函数的实例化
                 return clazz.getDeclaredConstructor(constructor.getParameterTypes()).newInstance(args);
-            }else {
+            } else {
                 return clazz.getDeclaredConstructor().newInstance();
             }
         } catch (NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException e) {

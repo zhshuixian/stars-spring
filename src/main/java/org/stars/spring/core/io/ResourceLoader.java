@@ -9,8 +9,9 @@ public interface ResourceLoader {
 
     /**
      * 获取 Resource
+     *
      * @param location 位置
-     * @return  Resource
+     * @return Resource
      */
     Resource getResource(String location);
 }

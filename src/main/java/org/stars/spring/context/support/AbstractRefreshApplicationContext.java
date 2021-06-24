@@ -7,7 +7,7 @@ import org.stars.spring.beans.factory.support.DefaultListableBeanFactory;
 /**
  * @author : xian
  */
-public abstract class AbstractRefreshApplicationContext extends AbstractApplicationContext{
+public abstract class AbstractRefreshApplicationContext extends AbstractApplicationContext {
 
     private DefaultListableBeanFactory beanFactory;
 
@@ -17,7 +17,7 @@ public abstract class AbstractRefreshApplicationContext extends AbstractApplicat
         loadBeanDefinition(this.beanFactory);
     }
 
-    private DefaultListableBeanFactory createBeanFactory(){
+    private DefaultListableBeanFactory createBeanFactory() {
         return new DefaultListableBeanFactory();
     }
 

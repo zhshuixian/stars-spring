@@ -2,6 +2,7 @@ package org.stars.spring.beans.factory.config;
 
 /**
  * Bean 的引用类型
+ *
  * @author : xian
  */
 public class BeanReference {

@@ -6,6 +6,7 @@ import org.stars.spring.core.io.ResourceLoader;
 
 /**
  * 定义 Bean 读取的接口
+ *
  * @author : xian
  */
 public interface BeanDefinitionReader {

@@ -8,6 +8,7 @@ import java.util.Map;
 /**
  * 实现 Bean 的单例的接口，讲 bean 进行缓存和通过 bean name 获取
  * 主要是管理 bean 实例的
+ *
  * @author : xian
  */
 public class DefaultSingletonBeanRegistry implements SingletonBeanRegistry {
@@ -19,8 +20,10 @@ public class DefaultSingletonBeanRegistry implements SingletonBeanRegistry {
         return singletonObjects.get(beanName);
     }
 
-    /** 将实例添加到 singletonObjects */
-    public void addSingletonObject(String beanName, Object singleton){
+    /**
+     * 将实例添加到 singletonObjects
+     */
+    public void addSingletonObject(String beanName, Object singleton) {
         singletonObjects.put(beanName, singleton);
     }
 }

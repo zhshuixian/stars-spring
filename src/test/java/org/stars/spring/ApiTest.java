@@ -15,7 +15,7 @@ import org.stars.spring.context.support.ClassPathXmlApplicationContext;
 public class ApiTest {
 
     @Test
-    public void testBeanFactory(){
+    public void testBeanFactory() {
         // 不使用 PostProcessor 扩展的
         // BeanFactory 初始化
         DefaultListableBeanFactory factory = new DefaultListableBeanFactory();
@@ -28,7 +28,7 @@ public class ApiTest {
     }
 
     @Test
-    public void testPostProcessor(){
+    public void testPostProcessor() {
         // 手动指定 PostProcessor 的
         // BeanFactory 初始化
         DefaultListableBeanFactory beanFactory = new DefaultListableBeanFactory();
@@ -47,7 +47,7 @@ public class ApiTest {
     }
 
     @Test
-    public void testXmlContext(){
+    public void testXmlContext() {
         // 使用应用上下文
         ApplicationContext context = new ClassPathXmlApplicationContext("classpath:spring.xml");
 

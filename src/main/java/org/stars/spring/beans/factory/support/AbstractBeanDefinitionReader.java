@@ -5,6 +5,7 @@ import org.stars.spring.core.io.ResourceLoader;
 
 /**
  * 实现 BeanDefinitionReader 的前面两个接口
+ *
  * @author : xian
  */
 public abstract class AbstractBeanDefinitionReader implements BeanDefinitionReader {
@@ -12,7 +13,7 @@ public abstract class AbstractBeanDefinitionReader implements BeanDefinitionRead
 
     private ResourceLoader resourceLoader;
 
-    protected AbstractBeanDefinitionReader(BeanDefinitionRegistry registry){
+    protected AbstractBeanDefinitionReader(BeanDefinitionRegistry registry) {
         this(registry, new DefaultResourceLoader());
     }
 

@@ -4,7 +4,7 @@ package org.stars.spring.beans;
  * @author : xian
  */
 public class UserService {
-    private  String uId;
+    private String uId;
 
     private UserDao userDao;
 
@@ -12,7 +12,7 @@ public class UserService {
 
     private String location;
 
-    public void queryUserInfo(){
+    public void queryUserInfo() {
         System.out.println("userDao = " + userDao.queryUserName(uId) + " ," + this);
     }
 
@@ -20,7 +20,7 @@ public class UserService {
     public String toString() {
         return "uId='" + uId + '\'' +
                 ", company='" + company + '\'' +
-                ", location='" + location + '\'' ;
+                ", location='" + location + '\'';
     }
 
     public String getUId() {

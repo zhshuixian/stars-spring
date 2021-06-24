@@ -7,13 +7,14 @@ import java.net.URL;
 
 /**
  * 资源加载器的实现
+ *
  * @author : xian
  */
 public class DefaultResourceLoader implements ResourceLoader {
     @Override
     public Resource getResource(String location) {
         Assert.notNull(location, "Location must be not null");
-        if(location.startsWith(CLASSPATH_URL_PREFIX)) {
+        if (location.startsWith(CLASSPATH_URL_PREFIX)) {
             return new ClassPathResource(location.substring(CLASSPATH_URL_PREFIX.length()));
         } else {
             try {

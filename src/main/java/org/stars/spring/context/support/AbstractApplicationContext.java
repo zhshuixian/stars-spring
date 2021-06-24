@@ -83,4 +83,14 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader i
     public <T> T getBean(String beanName, Class<T> clazz) throws BeansException {
         return getBeanFactory().getBean(beanName, clazz);
     }
+
+    @Override
+    public void registerShutdownHook() {
+        Runtime.getRuntime().addShutdownHook(new Thread(this::close));
+    }
+
+    @Override
+    public void close() {
+        getBeanFactory().destroySingletons();
+    }
 }

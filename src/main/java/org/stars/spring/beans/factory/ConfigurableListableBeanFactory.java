@@ -32,6 +32,7 @@ public interface ConfigurableListableBeanFactory extends ListableBeanFactory, Au
      *
      * @param beanPostProcessor bean 对象初始化前后的修改扩展功能接口的实现
      */
+    @Override
     void addBeanPostProcessor(BeanPostProcessor beanPostProcessor);
 
 }

@@ -19,6 +19,7 @@ import java.io.InputStream;
 
 /**
  * XML 的方式读取 XML 解析和处理 Bean 的注册
+ *
  * @author : xian
  */
 public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
@@ -33,6 +34,7 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 
     /**
      * 解析 XML 生成 BeanDefinition , 然后注册
+     *
      * @param inputStream bean定义的输入流
      * @throws ClassNotFoundException class not found
      */
@@ -44,11 +46,11 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
         NodeList childNodes = root.getChildNodes();
 
         for (int i = 0; i < childNodes.getLength(); i++) {
-            if(!((childNodes.item(i)) instanceof Element)) {
+            if (!((childNodes.item(i)) instanceof Element)) {
                 continue;
             }
 
-            if(!"bean".equals(childNodes.item(i).getNodeName())) {
+            if (!"bean".equals(childNodes.item(i).getNodeName())) {
                 continue;
             }
 
@@ -60,18 +62,18 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 
             Class<?> clazz = Class.forName(className);
             String beanName = StrUtil.isNotEmpty(id) ? id : name;
-            if(StrUtil.isEmpty(beanName)) {
+            if (StrUtil.isEmpty(beanName)) {
                 beanName = StrUtil.lowerFirst(clazz.getSimpleName());
             }
 
             BeanDefinition beanDefinition = new BeanDefinition(clazz);
 
             for (int j = 0; j < bean.getChildNodes().getLength(); j++) {
-                if(!((bean.getChildNodes().item(j)) instanceof Element)) {
+                if (!((bean.getChildNodes().item(j)) instanceof Element)) {
                     continue;
                 }
 
-                if(!"property".equals(bean.getChildNodes().item(j).getNodeName())) {
+                if (!"property".equals(bean.getChildNodes().item(j).getNodeName())) {
                     continue;
                 }
 
@@ -90,7 +92,14 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
                 beanDefinition.getPropertyValues().addPropertyValue(propertyValue);
             }
 
-            if(getRegistry().containsBeanDefinition(beanName)) {
+            // 读取 xml 的配置， bean 属性填充后执行的方法和 bean 在销毁前需要执行的方法
+            String initMethodName = bean.getAttribute("init-method");
+            beanDefinition.setInitMethodName(initMethodName);
+            String destroyMethodName = bean.getAttribute("destroy-method");
+            beanDefinition.setDestroyMethodName(destroyMethodName);
+
+
+            if (getRegistry().containsBeanDefinition(beanName)) {
                 throw new BeansException("Duplicate beanName [" + beanName + "] is not allowed");
             }
 
@@ -130,7 +139,7 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 
     @Override
     public void loadBeanDefinitions(String... locations) throws BeansException {
-        for(String location: locations ){
+        for (String location : locations) {
             loadBeanDefinitions(location);
         }
     }

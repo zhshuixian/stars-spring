@@ -3,7 +3,7 @@
 <beans>
     <bean id="userDao" class="org.stars.spring.beans.UserDao"/>
 
-    <bean id="userService" class="org.stars.spring.beans.UserService">
+    <bean id="userService" class="org.stars.spring.beans.UserService" init-method="initMethod" destroy-method="destroyMethod">
         <property name="uId" value="1001"/>
         <property name="userDao" ref="userDao"/>
         <property name="company" value="天问"/>

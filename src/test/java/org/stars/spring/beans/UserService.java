@@ -54,4 +54,12 @@ public class UserService {
     public void setLocation(String location) {
         this.location = location;
     }
+
+    public void initMethod(){
+        System.out.println("UserService.intiMethod()");
+    }
+
+    public void destroyMethod(){
+        System.out.println("UserService.destroyMethod()");
+    }
 }

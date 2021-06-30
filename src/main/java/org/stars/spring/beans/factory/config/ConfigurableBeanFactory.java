@@ -32,4 +32,10 @@ public interface ConfigurableBeanFactory extends HierarchicalBeanFactory, Single
      * and logged instead of propagated to the caller of this method.
      */
     void destroySingletons();
+
+    /**
+     * 获取bean 的 class Loader
+     * @return ClassLoader
+     */
+    ClassLoader getBeanClassLoader();
 }

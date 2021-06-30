@@ -99,7 +99,7 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
             beanDefinition.setDestroyMethodName(destroyMethodName);
 
 
-            if (getRegistry().containsBeanDefinition(beanName)) {
+            if (Boolean.TRUE.equals(getRegistry().containsBeanDefinition(beanName))) {
                 throw new BeansException("Duplicate beanName [" + beanName + "] is not allowed");
             }
 

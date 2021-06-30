@@ -3,8 +3,7 @@ package org.stars.spring.beans.factory.support;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.StrUtil;
 import org.stars.spring.beans.BeansException;
-import org.stars.spring.beans.factory.DisposableBean;
-import org.stars.spring.beans.factory.InitializingBean;
+import org.stars.spring.beans.factory.*;
 import org.stars.spring.beans.factory.config.*;
 import org.stars.spring.beans.factory.instantiate.CglibSubclassingInstantiationStrategy;
 import org.stars.spring.beans.factory.instantiate.InstantiationStrategy;
@@ -92,6 +91,19 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
      * 执行 bean 的初始化前置、初始化、后置处理
      */
     private Object initializeBean(String beanName, Object bean, BeanDefinition beanDefinition) {
+        // InvokeAwareMethods
+        if(bean instanceof Aware){
+            if(bean instanceof BeanFactoryAware){
+                ((BeanFactoryAware) bean).setBeanFactory(this);
+            }
+            if(bean instanceof BeanClassLoaderAware){
+                ((BeanClassLoaderAware) bean).setBeanClassLoader(getBeanClassLoader());
+            }
+            if(bean instanceof BeanNameAware){
+                ((BeanNameAware) bean).setBeanName(beanName);
+            }
+        }
+
         // 执行 Before 的处理
         Object wrappedBean = applyBeanPostProcessorsBeforeInitialization(bean, beanName);
         try {
@@ -107,6 +119,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
 
     /**
      * 执行 bean 属性填充后，需要执行的方法
+     * 实现了 InitializingBean 或者使用 xml 配置的 初始化前的需要执行的操作
      *
      * @param beanName       bean 名称
      * @param bean           bean 对象

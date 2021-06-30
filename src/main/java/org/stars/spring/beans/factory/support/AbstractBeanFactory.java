@@ -4,6 +4,7 @@ import org.stars.spring.beans.BeansException;
 import org.stars.spring.beans.factory.config.BeanDefinition;
 import org.stars.spring.beans.factory.config.BeanPostProcessor;
 import org.stars.spring.beans.factory.config.ConfigurableBeanFactory;
+import org.stars.spring.util.ClassUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +20,9 @@ public abstract class AbstractBeanFactory extends DefaultSingletonBeanRegistry i
      * BeanPostProcessor：bean 初始化前后的扩展接口实现
      */
     private final List<BeanPostProcessor> beanPostProcessors = new ArrayList<>();
+
+    /** beanClassLoader */
+    private ClassLoader beanClassLoader = ClassUtils.getDefaultClassLoader();
 
     @Override
     public Object getBean(String beanName) throws BeansException {
@@ -66,5 +70,10 @@ public abstract class AbstractBeanFactory extends DefaultSingletonBeanRegistry i
      */
     public List<BeanPostProcessor> getBeanPostProcessors() {
         return this.beanPostProcessors;
+    }
+
+    @Override
+    public ClassLoader getBeanClassLoader() {
+        return this.beanClassLoader;
     }
 }

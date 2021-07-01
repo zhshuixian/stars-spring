@@ -1,6 +1,7 @@
 package org.stars.spring.beans.factory.support;
 
 import org.stars.spring.beans.BeansException;
+import org.stars.spring.beans.factory.FactoryBean;
 import org.stars.spring.beans.factory.config.BeanDefinition;
 import org.stars.spring.beans.factory.config.BeanPostProcessor;
 import org.stars.spring.beans.factory.config.ConfigurableBeanFactory;
@@ -14,14 +15,16 @@ import java.util.List;
  *
  * @author : xian
  */
-public abstract class AbstractBeanFactory extends DefaultSingletonBeanRegistry implements ConfigurableBeanFactory {
+public abstract class AbstractBeanFactory extends FactoryBeanRegisterSupport implements ConfigurableBeanFactory {
 
     /**
      * BeanPostProcessor：bean 初始化前后的扩展接口实现
      */
     private final List<BeanPostProcessor> beanPostProcessors = new ArrayList<>();
 
-    /** beanClassLoader */
+    /**
+     * beanClassLoader
+     */
     private ClassLoader beanClassLoader = ClassUtils.getDefaultClassLoader();
 
     @Override
@@ -39,13 +42,30 @@ public abstract class AbstractBeanFactory extends DefaultSingletonBeanRegistry i
         return doGetBean(beanName, null);
     }
 
+    @SuppressWarnings("unchecked")
     protected <T> T doGetBean(final String beanName, final Object[] args) {
-        Object bean = getSingleton(beanName);
-        if (bean != null) {
-            return (T) bean;
+        Object sharedInstance = getSingleton(beanName);
+        if (sharedInstance != null) {
+            return (T) getObjectForBeanInstance(sharedInstance, beanName);
         }
         BeanDefinition beanDefinition = getBeanDefinition(beanName);
-        return (T) createBean(beanName, beanDefinition, args);
+        Object bean = createBean(beanName, beanDefinition, args);
+        return (T) getObjectForBeanInstance(bean, beanName);
+    }
+
+    /**
+     * 如果是 FactoryBean, 则需要调用 {@link FactoryBean#getObject()}
+     *
+     * @param beanInstance bean 实例
+     * @param beanName     bean name
+     * @return bean or FactoryBean#getObject()
+     * @see FactoryBeanRegisterSupport#doGetObjectFromFactoryBean(FactoryBean, String)
+     */
+    private Object getObjectForBeanInstance(Object beanInstance, String beanName) {
+        if (!(beanInstance instanceof FactoryBean)) {
+            return beanInstance;
+        }
+        return getObjectFromFactoryBean((FactoryBean<?>) beanInstance, beanName);
     }
 
     /**

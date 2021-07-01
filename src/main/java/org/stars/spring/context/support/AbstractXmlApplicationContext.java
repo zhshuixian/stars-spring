@@ -17,6 +17,10 @@ public abstract class AbstractXmlApplicationContext extends AbstractRefreshAppli
         }
     }
 
+    /**
+     * 配置文件所在的路径
+     * @return  所有配置文件的路径
+     */
     protected abstract String[] getConfigLocations();
 
 }

@@ -59,6 +59,7 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
             String id = bean.getAttribute("id");
             String name = bean.getAttribute("name");
             String className = bean.getAttribute("class");
+            String scope = bean.getAttribute("scope");
 
             Class<?> clazz = Class.forName(className);
             String beanName = StrUtil.isNotEmpty(id) ? id : name;
@@ -67,6 +68,16 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
             }
 
             BeanDefinition beanDefinition = new BeanDefinition(clazz);
+
+
+            // 读取 xml 的配置， bean 属性填充后执行的方法和 bean 在销毁前需要执行的方法
+            String initMethodName = bean.getAttribute("init-method");
+            beanDefinition.setInitMethodName(initMethodName);
+            String destroyMethodName = bean.getAttribute("destroy-method");
+            beanDefinition.setDestroyMethodName(destroyMethodName);
+            if(StrUtil.isNotEmpty(scope)){
+                beanDefinition.setScope(scope);
+            }
 
             for (int j = 0; j < bean.getChildNodes().getLength(); j++) {
                 if (!((bean.getChildNodes().item(j)) instanceof Element)) {
@@ -92,24 +103,13 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
                 beanDefinition.getPropertyValues().addPropertyValue(propertyValue);
             }
 
-            // 读取 xml 的配置， bean 属性填充后执行的方法和 bean 在销毁前需要执行的方法
-            String initMethodName = bean.getAttribute("init-method");
-            beanDefinition.setInitMethodName(initMethodName);
-            String destroyMethodName = bean.getAttribute("destroy-method");
-            beanDefinition.setDestroyMethodName(destroyMethodName);
-
-
             if (Boolean.TRUE.equals(getRegistry().containsBeanDefinition(beanName))) {
                 throw new BeansException("Duplicate beanName [" + beanName + "] is not allowed");
             }
 
-
-            // 注册 bean
+            // 注册 BeanDefinition
             getRegistry().registryBeanDefinition(beanName, beanDefinition);
-
         }
-
-
     }
 
     @Override

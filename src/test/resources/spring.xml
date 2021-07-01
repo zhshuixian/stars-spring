@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <beans>
-    <bean id="userDao" class="org.stars.spring.beans.UserDao"/>
+    <bean id="userDao" class="org.stars.spring.beans.ProxyBeanFactory"/>
 
-    <bean id="userService" class="org.stars.spring.beans.UserService" init-method="initMethod" destroy-method="destroyMethod">
+    <bean id="userService" class="org.stars.spring.beans.UserService" scope="prototype">
         <property name="uId" value="1001"/>
         <property name="userDao" ref="userDao"/>
-        <property name="company" value="天问"/>
-        <property name="location" value="火星"/>
+        <property name="company" value="西天取经团队"/>
+        <property name="location" value="花果山"/>
     </bean>
 
-    <bean id="myBeanFactoryPostProcessor" class="org.stars.spring.common.MyBeanFactoryPostProcessor"/>
-
-    <bean id="myBeanPostProcessor" class="org.stars.spring.common.MyBeanPostProcessor"/>
+    <!--
+        <bean id="myBeanFactoryPostProcessor" class="org.stars.spring.common.MyBeanFactoryPostProcessor"/>
+        <bean id="myBeanPostProcessor" class="org.stars.spring.common.MyBeanPostProcessor"/>
+     -->
 
 </beans>

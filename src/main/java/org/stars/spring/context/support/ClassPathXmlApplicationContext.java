@@ -5,10 +5,7 @@ package org.stars.spring.context.support;
  */
 public class ClassPathXmlApplicationContext extends AbstractXmlApplicationContext {
 
-    private String[] configLocations;
-
-    public ClassPathXmlApplicationContext() {
-    }
+    private final String[] configLocations;
 
     /**
      * 从 xml 加载 BeanDefinition 并刷新上下文

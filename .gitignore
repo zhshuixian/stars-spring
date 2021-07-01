@@ -33,3 +33,7 @@ out
 gen
 
 /target
+.classpath
+/.project
+/.settings
+/.vscode

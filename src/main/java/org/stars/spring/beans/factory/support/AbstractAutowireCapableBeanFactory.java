@@ -34,8 +34,11 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
         }
         // 注册实现了 DisposableBean 或者 配置了 destroy-method 的 bean 对象
         registerDisposableBeanIfNecessary(beanName, bean, beanDefinition);
+        // 单例模式的 bean 才需要注册
+        if(beanDefinition.isSingleton()){
+            addSingletonObject(beanName, bean);
+        }
 
-        addSingletonObject(beanName, bean);
         return bean;
     }
 
@@ -133,15 +136,21 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
         }
         String initMethodName = beanDefinition.getInitMethodName();
         if (StrUtil.isNotEmpty(initMethodName)) {
-            Method initMethod = beanDefinition.getBeanClass().getMethod(initMethodName);
-            if (null == initMethod) {
-                throw new Exception("Cloud not find an init method named '" + initMethodName + "' on bean with name '" + beanName + "'");
+            try {
+                Method initMethod = beanDefinition.getBeanClass().getMethod(initMethodName);
+                initMethod.invoke(bean);
+            } catch (Exception e) {
+                throw new BeansException("Cloud not find or invoke an init method named '" +
+                        initMethodName + "' on bean with name '" + beanName + "'", e);
             }
-            initMethod.invoke(bean);
         }
     }
 
     protected void registerDisposableBeanIfNecessary(String beanName, Object bean, BeanDefinition beanDefinition){
+        // 非 singleton 的类型 Bean 执行销毁的方法
+        if(!beanDefinition.isSingleton()) {
+            return;
+        }
         if(bean instanceof DisposableBean || StrUtil.isNotEmpty((beanDefinition.getDestroyMethodName()))){
             registerDisposableBean(beanName, new DisposableBeanAdapter(bean, beanName, beanDefinition));
         }

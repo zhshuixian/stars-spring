@@ -1,12 +1,12 @@
 package org.stars.spring.beans.factory.support;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-
 import org.stars.spring.beans.BeansException;
 import org.stars.spring.beans.factory.DisposableBean;
 import org.stars.spring.beans.factory.config.SingletonBeanRegistry;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * 实现 Bean 的单例的接口，讲 bean 进行缓存和通过 bean name 获取
@@ -34,7 +34,8 @@ public class DefaultSingletonBeanRegistry implements SingletonBeanRegistry {
     /**
      * 将实例添加到 singletonObjects
      */
-    public void addSingletonObject(String beanName, Object singleton) {
+    @Override
+    public void registerSingleton(String beanName, Object singleton) {
         singletonObjects.put(beanName, (singleton != null ? singleton : NULL_OBJECT));
     }
 

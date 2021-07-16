@@ -3,7 +3,7 @@ package org.stars.spring.beans;
 /**
  * @author : xian
  */
-public class UserService {
+public class UserService implements IUserService {
     private String uId;
 
     private IUserDao userDao;
@@ -12,6 +12,7 @@ public class UserService {
 
     private String location;
 
+    @Override
     public void queryUserInfo() {
         System.out.println("userDao = " + userDao.queryUserName(uId) + " ," + this);
     }

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<beans>
+    <bean id="aopService" class="org.stars.spring.aop.AopService"/>
+
+    <bean class="org.stars.spring.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"/>
+
+    <bean id="beforeAdvice" class="org.stars.spring.aop.AopServiceBeforeAdvice"/>
+
+    <bean id="methodInterceptor"
+          class="org.stars.spring.aop.framework.adapter.MethodBeforeAdviceInterceptor">
+        <property name="advice" ref="beforeAdvice"/>
+    </bean>
+
+    <bean id="pointcutAdvisor" class="org.stars.spring.aop.aspectj.AspectJExpressionPointcutAdvisor">
+        <property name="expression" value="execution(* org.stars.spring.aop.IAopService.*(..))"/>
+        <property name="advice" ref="methodInterceptor"/>
+    </bean>
+
+</beans>

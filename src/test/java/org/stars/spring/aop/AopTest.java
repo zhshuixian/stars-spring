@@ -6,6 +6,7 @@ import org.stars.spring.aop.aspectj.AspectJExpressionPointcut;
 import org.stars.spring.aop.framework.Cglib2AopProxy;
 import org.stars.spring.aop.framework.JdkDynamicAopProxy;
 import org.stars.spring.aop.framework.ReflectiveMethodInvocation;
+import org.stars.spring.context.support.ClassPathXmlApplicationContext;
 import org.stars.spring.util.ClassUtils;
 
 import java.lang.reflect.InvocationHandler;
@@ -84,5 +85,14 @@ public class AopTest {
         IAopService cglibProxy = (IAopService) new Cglib2AopProxy(advised).getProxy();
         System.out.println("Cglib 动态代理测试" + cglibProxy.register("花花"));
 
+    }
+
+    @Test
+    public void testAutoAop() {
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("classpath:spring-aop.xml");
+
+        IAopService service = context.getBean("aopService", IAopService.class);
+
+        System.out.println("测试结果：" + service.query());
     }
 }

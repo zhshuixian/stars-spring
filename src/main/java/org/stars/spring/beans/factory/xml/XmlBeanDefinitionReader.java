@@ -8,14 +8,17 @@ import org.stars.spring.beans.factory.config.BeanReference;
 import org.stars.spring.beans.factory.config.PropertyValue;
 import org.stars.spring.beans.factory.support.AbstractBeanDefinitionReader;
 import org.stars.spring.beans.factory.support.BeanDefinitionRegistry;
+import org.stars.spring.context.annotation.ClassPathBeanDefinitionScanner;
 import org.stars.spring.core.io.Resource;
 import org.stars.spring.core.io.ResourceLoader;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Objects;
 
 /**
  * XML 的方式读取 XML 解析和处理 Bean 的注册
@@ -51,6 +54,7 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
             }
 
             if (!"bean".equals(childNodes.item(i).getNodeName())) {
+                doParseOtherNode(childNodes.item(i));
                 continue;
             }
 
@@ -110,6 +114,28 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
             // 注册 BeanDefinition
             getRegistry().registryBeanDefinition(beanName, beanDefinition);
         }
+    }
+
+    /**
+     * 临时的，处理 component-scan
+     */
+    private void doParseOtherNode(Node item) {
+        if (Objects.equals(item.getNodeName(), "context:component-scan")) {
+            String scanPath = ((Element) item).getAttribute("base-package");
+            if (StrUtil.isEmpty(scanPath)) {
+                throw new BeansException("The value of base-package attribute is empty or null");
+            }
+            scanPackage(scanPath);
+        }
+    }
+
+    /**
+     * 扫描 component-scan 注释的 package
+     */
+    private void scanPackage(String scanPath) {
+        String[] basePackages = StrUtil.splitToArray(scanPath, ',');
+        ClassPathBeanDefinitionScanner scanner = new ClassPathBeanDefinitionScanner(getRegistry());
+        scanner.doScan(basePackages);
     }
 
     @Override

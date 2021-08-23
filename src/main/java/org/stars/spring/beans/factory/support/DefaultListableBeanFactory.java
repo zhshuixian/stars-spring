@@ -4,7 +4,9 @@ import org.stars.spring.beans.BeansException;
 import org.stars.spring.beans.factory.ConfigurableListableBeanFactory;
 import org.stars.spring.beans.factory.config.BeanDefinition;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -64,5 +66,21 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
     @Override
     public void destroySingletons() {
         super.destroySingletons();
+    }
+
+    @Override
+    public <T> T getBean(Class<T> requireType) throws BeansException {
+        List<String> beanNames = new ArrayList<>();
+        for (Map.Entry<String, BeanDefinition> entry : beanDefinitionMap.entrySet()) {
+            Class<?> beanClass = entry.getValue().getBeanClass();
+            if (requireType.isAssignableFrom(beanClass)) {
+                beanNames.add(entry.getKey());
+            }
+        }
+        if (beanNames.size() == 1) {
+            return getBean(beanNames.get(0), requireType);
+        }
+
+        throw new BeansException(requireType + "expected single bean but found " + beanNames.size() + " : " + beanNames);
     }
 }

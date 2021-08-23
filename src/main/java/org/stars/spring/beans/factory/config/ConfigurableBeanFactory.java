@@ -1,6 +1,7 @@
 package org.stars.spring.beans.factory.config;
 
 import org.stars.spring.beans.factory.HierarchicalBeanFactory;
+import org.stars.spring.util.StringValueResolver;
 
 /**
  * Configuration interface to be implemented by most bean factories. Provides
@@ -35,7 +36,23 @@ public interface ConfigurableBeanFactory extends HierarchicalBeanFactory, Single
 
     /**
      * 获取bean 的 class Loader
+     *
      * @return ClassLoader
      */
     ClassLoader getBeanClassLoader();
+
+    /**
+     * Add a String resolver for embedded values such as annotation attributes. 字符串解析器
+     *
+     * @param valueResolver the String resolver to apply to embedded values
+     */
+    void addEmbeddedValueResolver(StringValueResolver valueResolver);
+
+    /**
+     * Resolve the given embedded value, e.g. an annotation attribute. 使用字符串解析器解析原始 value
+     *
+     * @param value the value to resolve
+     * @return the resolved value (may be the original value as-is)
+     */
+    String resolveEmbeddedValue(String value);
 }

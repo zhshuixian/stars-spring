@@ -6,6 +6,7 @@ import org.stars.spring.beans.factory.config.BeanDefinition;
 import org.stars.spring.beans.factory.config.BeanPostProcessor;
 import org.stars.spring.beans.factory.config.ConfigurableBeanFactory;
 import org.stars.spring.util.ClassUtils;
+import org.stars.spring.util.StringValueResolver;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +27,11 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegisterSupport imp
      * beanClassLoader
      */
     private ClassLoader beanClassLoader = ClassUtils.getDefaultClassLoader();
+
+    /**
+     * String resolvers to apply e.g. to annotation attribute values
+     */
+    private final List<StringValueResolver> embeddedValueResolvers = new ArrayList<>();
 
     @Override
     public Object getBean(String beanName) throws BeansException {
@@ -95,5 +101,19 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegisterSupport imp
     @Override
     public ClassLoader getBeanClassLoader() {
         return this.beanClassLoader;
+    }
+
+    @Override
+    public void addEmbeddedValueResolver(StringValueResolver valueResolver) {
+        this.embeddedValueResolvers.add(valueResolver);
+    }
+
+    @Override
+    public String resolveEmbeddedValue(String value) {
+        String result = value;
+        for (StringValueResolver resolver : embeddedValueResolvers) {
+            result = resolver.resolveStringValue(result);
+        }
+        return result;
     }
 }

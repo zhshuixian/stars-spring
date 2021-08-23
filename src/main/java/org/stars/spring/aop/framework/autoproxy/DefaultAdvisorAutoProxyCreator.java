@@ -9,6 +9,7 @@ import org.stars.spring.beans.BeansException;
 import org.stars.spring.beans.factory.BeanFactory;
 import org.stars.spring.beans.factory.BeanFactoryAware;
 import org.stars.spring.beans.factory.config.InstantiationAwareBeanPostProcessor;
+import org.stars.spring.beans.factory.config.PropertyValues;
 import org.stars.spring.beans.factory.support.DefaultListableBeanFactory;
 
 import java.lang.reflect.InvocationTargetException;
@@ -53,6 +54,11 @@ public class DefaultAdvisorAutoProxyCreator implements InstantiationAwareBeanPos
         }
 
         return null;
+    }
+
+    @Override
+    public PropertyValues postProcessPropertyValues(PropertyValues propertyValues, Object bean, String beanName) throws BeansException {
+        return propertyValues;
     }
 
     @Override

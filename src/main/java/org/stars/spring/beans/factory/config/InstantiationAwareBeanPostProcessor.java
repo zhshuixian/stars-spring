@@ -19,7 +19,29 @@ public interface InstantiationAwareBeanPostProcessor extends BeanPostProcessor {
      * @return
      * @throws BeansException
      */
-    Object postProcessBeforeInstantiation(Class<?> beanClass, String beanName) throws BeansException;
+    default Object postProcessBeforeInstantiation(Class<?> beanClass, String beanName) throws BeansException {
+        return null;
+    }
+
+
+    /**
+     * Perform operations after the bean has been instantiated, via a constructor or factory method,
+     * but before Spring property population (from explicit properties or autowiring) occurs.
+     * <p>
+     * This is the ideal callback for performing field injection on the given bean instance.
+     * See Spring's own {@link org.stars.spring.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor}
+     * for a typical example.
+     * <p>
+     * 在 bean 对象初始化方法后执行此方法
+     *
+     * @param bean     bean 对象
+     * @param beanName bean 名称
+     * @return 修改后的 bean
+     * @throws BeansException 可能出现的异常
+     */
+    default boolean postProcessAfterInstantiation(Object bean, String beanName) throws BeansException {
+        return true;
+    }
 
     /**
      * <p>

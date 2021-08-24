@@ -4,6 +4,7 @@ import net.sf.cglib.proxy.Enhancer;
 import net.sf.cglib.proxy.MethodInterceptor;
 import net.sf.cglib.proxy.MethodProxy;
 import org.stars.spring.aop.AdvisedSupport;
+import org.stars.spring.util.ClassUtils;
 
 import java.lang.reflect.Method;
 
@@ -20,7 +21,9 @@ public class Cglib2AopProxy implements AopProxy {
     @Override
     public Object getProxy() {
         Enhancer enhancer = new Enhancer();
-        enhancer.setSuperclass(advised.getTargetSource().getTarget().getClass());
+        Class<?> targetClass = advised.getTargetSource().getTarget().getClass();
+        targetClass = ClassUtils.isCglibProxyClass(targetClass) ? targetClass.getSuperclass() : targetClass;
+        enhancer.setSuperclass(targetClass);
         enhancer.setInterfaces(advised.getTargetSource().getTargetClass());
         enhancer.setCallback(new DynamicAdvisedInterceptor(advised));
 

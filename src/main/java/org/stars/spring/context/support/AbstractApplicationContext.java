@@ -7,6 +7,7 @@ import org.stars.spring.beans.factory.config.BeanPostProcessor;
 import org.stars.spring.context.ApplicationEvent;
 import org.stars.spring.context.ConfigurableApplicationContext;
 import org.stars.spring.context.event.*;
+import org.stars.spring.core.convert.ConversionService;
 import org.stars.spring.core.io.DefaultResourceLoader;
 
 import java.util.Collection;
@@ -40,10 +41,8 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader i
         registerApplicationEventMulticast();
         // 注册事件监听器
         registerListeners();
-
-        // 提前实例化 bean
-        beanFactory.preInstantiateSingletons();
-
+        // 设置类型转换器、提前实例化单例Bean对象
+        finishBeanFactoryInitialization(beanFactory);
         // Context 刷新后，发布 ContextRefreshedEvent
         finishRefresh();
     }
@@ -65,6 +64,23 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader i
         for (ApplicationListener listener : applicationListeners) {
             applicationEventMulticaster.addApplicationListener(listener);
         }
+    }
+
+    private void finishBeanFactoryInitialization(ConfigurableListableBeanFactory beanFactory) {
+        // 设置类型转换器
+        if (beanFactory.containsBean("conversionService")) {
+            Object conversionService = beanFactory.getBean("conversionService");
+            if (conversionService instanceof ConversionService) {
+                beanFactory.setConversionService((ConversionService) conversionService);
+            }
+        }
+        // 提前实例化 bean
+        beanFactory.preInstantiateSingletons();
+    }
+
+    @Override
+    public boolean containsBean(String name) {
+        return getBeanFactory().containsBean(name);
     }
 
     @Override

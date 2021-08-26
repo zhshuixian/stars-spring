@@ -1,6 +1,7 @@
 package org.stars.spring.beans.factory.config;
 
 import org.stars.spring.beans.factory.HierarchicalBeanFactory;
+import org.stars.spring.core.convert.ConversionService;
 import org.stars.spring.util.StringValueResolver;
 
 /**
@@ -55,4 +56,18 @@ public interface ConfigurableBeanFactory extends HierarchicalBeanFactory, Single
      * @return the resolved value (may be the original value as-is)
      */
     String resolveEmbeddedValue(String value);
+
+    /**
+     * property values 的转换器
+     *
+     * @param conversionService 转换器
+     */
+    void setConversionService(ConversionService conversionService);
+
+    /**
+     * 返回 ConversionService
+     *
+     * @return ConversionService
+     */
+    ConversionService getConversionService();
 }

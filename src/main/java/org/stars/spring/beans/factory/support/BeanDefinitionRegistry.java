@@ -32,7 +32,7 @@ public interface BeanDefinitionRegistry {
      * @param beaName bean 名
      * @return 已经注册过了则返回 true
      */
-    Boolean containsBeanDefinition(String beaName);
+    boolean containsBeanDefinition(String beaName);
 
     /**
      * 返回所有注册的 bean 名称

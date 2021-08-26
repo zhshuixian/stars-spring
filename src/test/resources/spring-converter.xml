@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+	         http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="house" class="org.stars.spring.core.converter.House">
+        <property name="name" value="${housename}"/>
+        <property name="buildDate" value="2021-08-26"/>
+    </bean>
+
+    <bean id="converters" class="org.stars.spring.core.converter.ConverterFactoryBean"/>
+
+    <bean id="conversionService" class="org.stars.spring.context.support.ConversionServiceFactoryBean">
+        <property name="converters" ref="converters"/>
+    </bean>
+
+
+</beans>

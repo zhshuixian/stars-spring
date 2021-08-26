@@ -2,11 +2,13 @@ package org.stars.spring.beans.factory.support;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.core.util.TypeUtil;
 import org.stars.spring.beans.BeansException;
 import org.stars.spring.beans.factory.*;
 import org.stars.spring.beans.factory.config.*;
 import org.stars.spring.beans.factory.instantiate.CglibSubclassingInstantiationStrategy;
 import org.stars.spring.beans.factory.instantiate.InstantiationStrategy;
+import org.stars.spring.core.convert.ConversionService;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
@@ -148,7 +150,17 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
                     // A 依赖 B ，这先实例化 B
                     BeanReference reference = (BeanReference) pValue;
                     pValue = getBean(reference.getBeanName());
+                } else {
+                    // 类型转换
+                    Class<?> sourceType = pValue.getClass();
+                    Class<?> targetType = (Class<?>) TypeUtil.getFieldType(bean.getClass(), pName);
+                    ConversionService conversionService = getConversionService();
+                    if (conversionService != null && conversionService.canConvert(sourceType, targetType)) {
+                        pValue = conversionService.convert(pValue, targetType);
+                    }
                 }
+
+
                 // Hutool 的工具类完成属性填充
                 BeanUtil.setFieldValue(bean, pName, pValue);
             }
